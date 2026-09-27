@@ -2,234 +2,1998 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>용현이 엄마 찾기</title>
+
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#090909;color:#fff;font-family:"Noto Sans KR",Arial,sans-serif}
-body{display:flex;justify-content:center;align-items:center;padding:12px;overflow-x:hidden}
-button{font:inherit}
-#game{width:min(900px,100%);min-height:720px;background:#171717;border:3px solid #333;border-radius:18px;overflow:hidden;box-shadow:0 25px 80px #000;position:relative}
-.screen{min-height:720px}
-#title{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:35px 20px;background:
-radial-gradient(circle at 50% 35%,#343434 0,#171717 42%,#090909 100%)}
-.warning{color:#ffda3e;font-size:12px;font-weight:900;letter-spacing:2px}
-.logo{font-family:Impact,"Arial Black",sans-serif;font-size:clamp(55px,12vw,110px);line-height:.82;letter-spacing:-4px;margin:25px 0 15px;transform:rotate(-2deg);text-shadow:5px 5px 0 #ff315d}
-.logo small{display:block;font-family:"Noto Sans KR",sans-serif;font-size:18px;letter-spacing:1px;color:#aaa;text-shadow:none;margin-top:18px}
-.startline{max-width:580px;color:#aaa;font-size:14px;line-height:1.8}
-.startbtn{margin-top:25px;background:#ff315d;color:#fff;border:0;border-radius:8px;padding:17px 40px;font-size:20px;font-weight:1000;cursor:pointer;box-shadow:0 8px 0 #a71936}
-.startbtn:active{transform:translateY(6px);box-shadow:0 2px 0 #a71936}
-.tiny{margin-top:20px;color:#555;font-size:10px}
-#play{display:none;background:#0f0f10}
-.top{height:78px;background:#1d1d1f;border-bottom:1px solid #333;display:flex;align-items:center;justify-content:space-between;padding:12px 18px}
-.chapter{font-size:12px;color:#ff315d;font-weight:1000}
-.chapter b{display:block;color:#fff;font-size:18px;margin-top:3px}
-.stats{display:flex;gap:7px}.stat{background:#29292b;border:1px solid #414145;border-radius:7px;padding:6px 10px;text-align:center;min-width:70px}.stat span{display:block;font-size:9px;color:#888}.stat b{font-size:15px}
-.scene{position:relative;height:455px;overflow:hidden;background:#222}
-.bg{position:absolute;inset:0;background:
-linear-gradient(#252b38 0 62%,#383838 62% 100%)}
-.window{position:absolute;left:7%;top:10%;width:27%;height:32%;background:#8ed5ef;border:8px solid #111;box-shadow:inset 0 0 0 5px #b9efff}
-.window:before{content:"";position:absolute;left:48%;top:0;bottom:0;width:6px;background:#111}.window:after{content:"";position:absolute;top:47%;left:0;right:0;height:6px;background:#111}
-.sofa{position:absolute;right:4%;bottom:17%;width:34%;height:105px;background:#6f4351;border:7px solid #111;border-radius:25px 25px 8px 8px}
-.table{position:absolute;left:7%;bottom:12%;width:27%;height:24px;background:#a06b42;border:6px solid #111;border-radius:8px}.table:after{content:"";position:absolute;left:12%;right:12%;top:20px;height:90px;border-left:8px solid #111;border-right:8px solid #111}
-.character{position:absolute;left:50%;bottom:10%;transform:translateX(-50%);width:170px;height:270px;transition:.25s}
-.body{position:absolute;bottom:0;left:25px;width:120px;height:150px;background:#4775d8;border:7px solid #111;border-radius:45px 45px 20px 20px}
-.head{position:absolute;left:42px;top:15px;width:88px;height:98px;background:#f2b994;border:7px solid #111;border-radius:48% 48% 44% 44%}
-.hair{position:absolute;left:-4px;top:-8px;width:90px;height:43px;background:#241b18;border:6px solid #111;border-radius:50px 50px 18px 18px}
-.eye{position:absolute;top:51px;width:10px;height:14px;background:#111;border-radius:50%}.eye.l{left:19px}.eye.r{right:19px}
-.mouth{position:absolute;left:31px;top:73px;width:26px;height:13px;border-bottom:5px solid #111;border-radius:50%}
-.speech{position:absolute;left:calc(50% + 90px);bottom:65%;background:#fff;color:#111;border:4px solid #111;border-radius:12px;padding:9px 12px;font-weight:900;font-size:13px;max-width:250px;box-shadow:5px 5px 0 #000}
-.speech:after{content:"";position:absolute;left:15px;bottom:-14px;border:7px solid transparent;border-top-color:#111}
-#fx{position:absolute;inset:0;pointer-events:none;display:none;align-items:center;justify-content:center;z-index:20}
-.fxtext{font-family:Impact,Arial Black,sans-serif;font-size:clamp(45px,11vw,100px);color:#ff315d;text-shadow:5px 5px #fff,-3px -3px #111;transform:rotate(-5deg);animation:slam .45s}
-@keyframes slam{0%{transform:scale(3) rotate(-12deg);opacity:0}70%{transform:scale(.95) rotate(3deg);opacity:1}100%{transform:scale(1) rotate(-5deg)}}
-.dialog{min-height:135px;background:#151517;border-top:1px solid #333;padding:17px 20px}
-.speaker{font-size:11px;color:#ff315d;font-weight:1000;margin-bottom:6px}
-.text{font-size:16px;line-height:1.65;font-weight:800;min-height:54px}
-.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}
-.choice{border:1px solid #444;background:#242427;color:#fff;border-radius:7px;padding:11px;text-align:left;cursor:pointer;font-weight:800}
-.choice:hover{border-color:#ff315d;background:#2d2024}
-.choice small{display:block;color:#777;margin-top:3px;font-size:9px}
-#ending{display:none;position:absolute;inset:0;background:#080808;z-index:100;align-items:center;justify-content:center;padding:20px;text-align:center}
-.endcard{width:min(650px,100%);border:2px solid #333;background:#151515;border-radius:15px;padding:30px 22px}
-.endlabel{color:#ff315d;font-size:11px;font-weight:1000;letter-spacing:2px}
-.endtitle{font-family:Impact,Arial Black,sans-serif;font-size:clamp(45px,10vw,90px);line-height:.9;margin:15px 0;letter-spacing:-2px}
-.enddesc{color:#aaa;line-height:1.8;font-weight:700}
-.restart{margin-top:20px;border:0;background:#ff315d;color:#fff;padding:14px 28px;border-radius:7px;font-weight:1000;cursor:pointer}
-.shake{animation:shake .32s}@keyframes shake{20%{transform:translate(-8px,2px)}40%{transform:translate(7px,-3px)}60%{transform:translate(-5px,2px)}80%{transform:translate(4px,-1px)}}
-.flash{animation:flash .25s}@keyframes flash{50%{filter:brightness(2.5)}}
-@media(max-width:600px){
- body{padding:0}.screen{min-height:100vh}#game{border:0;border-radius:0;min-height:100vh}
- #play{min-height:100vh}.top{height:70px}.stats{gap:3px}.stat{min-width:54px;padding:5px 6px}
- .scene{height:48vh;min-height:390px}.speech{left:auto;right:5%;bottom:64%;max-width:45%}
- .dialog{min-height:190px}.choices{grid-template-columns:1fr}
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #08090d;
+  --panel: #11131a;
+  --panel2: #181b23;
+  --line: #2c303a;
+  --text: #f5f5f7;
+  --muted: #8e95a3;
+  --pink: #ff4f86;
+  --red: #ff5b5b;
+  --yellow: #ffd45a;
+  --green: #65dfa0;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Noto Sans KR",
+    sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  font: inherit;
+}
+
+#app {
+  width: min(940px, 100%);
+  min-height: 100vh;
+  padding: 18px;
+}
+
+/* =========================
+   START
+========================= */
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+#startScreen {
+  min-height: calc(100vh - 36px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#startScreen.active {
+  display: flex;
+}
+
+.start-inner {
+  width: min(700px, 100%);
+}
+
+.kicker {
+  color: var(--pink);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+}
+
+.start-title {
+  margin: 16px 0;
+  font-size: clamp(48px, 11vw, 100px);
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+}
+
+.start-title span {
+  color: var(--pink);
+}
+
+.start-description {
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.start-button {
+  margin-top: 28px;
+  width: min(330px, 100%);
+  padding: 17px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--pink);
+  color: white;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 15px 40px #ff4f8630;
+}
+
+.start-button:hover {
+  filter: brightness(1.08);
+}
+
+.warning {
+  margin: 20px auto 0;
+  max-width: 520px;
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: #696f7b;
+  background: #0d0f14;
+  font-size: 11px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.brand {
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.brand span {
+  color: var(--pink);
+}
+
+.case-number {
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* =========================
+   HUD
+========================= */
+
+.hud {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.stat {
+  min-width: 90px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.stat b {
+  display: block;
+  font-size: 17px;
+}
+
+.stat small {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.progress {
+  height: 5px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #191c24;
+}
+
+.progress i {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--pink);
+  transition: width 0.3s ease;
+}
+
+/* =========================
+   GAME
+========================= */
+
+.case {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--panel);
+}
+
+.scene {
+  position: relative;
+  height: 340px;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      to bottom,
+      #151821 0%,
+      #151821 65%,
+      #0c0e13 65%,
+      #0c0e13 100%
+    );
+}
+
+.scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      115deg,
+      transparent 0%,
+      transparent 58%,
+      #ffffff04 58%,
+      #ffffff04 60%,
+      transparent 60%
+    );
+}
+
+/* window */
+
+.window {
+  position: absolute;
+  top: 45px;
+  right: 10%;
+  width: 190px;
+  height: 115px;
+  border: 1px solid #3a4659;
+  background:
+    linear-gradient(135deg, #17273b, #0f1724);
+}
+
+.window::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  border-left: 1px solid #3a4659;
+}
+
+/* sofa */
+
+.sofa {
+  position: absolute;
+  bottom: 36px;
+  left: 7%;
+  width: 290px;
+  height: 75px;
+  border: 1px solid #343a48;
+  border-radius: 20px 20px 9px 9px;
+  background: #1d222d;
+}
+
+/* table */
+
+.table {
+  position: absolute;
+  right: 14%;
+  bottom: 36px;
+  width: 160px;
+  height: 55px;
+  border: 1px solid #343a48;
+  border-radius: 9px;
+  background: #1a1e27;
+}
+
+/* delivery box */
+
+.delivery-box {
+  position: absolute;
+  right: 25%;
+  bottom: 91px;
+  width: 68px;
+  height: 53px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #d1b78d;
+  background: #a98d67;
+  color: #51331c;
+  font-weight: 1000;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.delivery-box::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #735a3c;
+}
+
+/* 용현이 */
+
+.character {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  width: 68px;
+  height: 108px;
+  cursor: pointer;
+  transform: translateX(-50%);
+  z-index: 4;
+}
+
+.character-head {
+  width: 42px;
+  height: 42px;
+  margin: auto;
+  border-radius: 50%;
+  background: #e4b18d;
+}
+
+.character-body {
+  height: 68px;
+  border-radius: 17px 17px 8px 8px;
+  background: #465065;
+}
+
+.character-tag {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  padding: 4px 7px;
+  border: 1px solid #343944;
+  border-radius: 6px;
+  background: #090a0e;
+  color: #d8dbe1;
+  font-size: 10px;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content {
+  padding: 18px;
+}
+
+.chapter {
+  color: var(--pink);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.scene-title {
+  margin: 5px 0 8px;
+  font-size: 25px;
+  letter-spacing: -0.05em;
+}
+
+.dialogue {
+  min-height: 62px;
+  color: #c4c8d1;
+  line-height: 1.75;
+}
+
+.dialogue strong {
+  color: white;
+}
+
+.choices {
+  display: grid;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.choice {
+  padding: 14px;
+  border: 1px solid #303540;
+  border-radius: 11px;
+  background: var(--panel2);
+  color: #eeeeef;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.choice:hover {
+  border-color: #5a616f;
+  background: #1c2029;
+}
+
+.choice:active {
+  transform: scale(0.985);
+}
+
+.choice.danger {
+  border-color: #4d2d35;
+}
+
+.choice .number {
+  display: inline-grid;
+  width: 23px;
+  height: 23px;
+  margin-right: 7px;
+  place-items: center;
+  border-radius: 6px;
+  background: #262a34;
+  color: #aeb4bf;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+/* =========================
+   CLUES
+========================= */
+
+.clue-area {
+  margin-top: 16px;
+  padding-top: 11px;
+  border-top: 1px solid var(--line);
+}
+
+.clue-title {
+  color: #747b87;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.clues {
+  display: flex;
+  gap: 6px;
+  margin-top: 7px;
+  overflow-x: auto;
+}
+
+.clue {
+  flex: 0 0 auto;
+  padding: 6px 8px;
+  border: 1px solid #343945;
+  border-radius: 8px;
+  background: #0d0f14;
+  color: #b9bec8;
+  font-size: 10px;
+}
+
+/* =========================
+   ENDING
+========================= */
+
+.ending {
+  padding: 65px 20px;
+  text-align: center;
+}
+
+.ending-type {
+  color: var(--pink);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+}
+
+.ending h2 {
+  margin: 12px 0;
+  font-size: clamp(34px, 8vw, 52px);
+  letter-spacing: -0.06em;
+}
+
+.ending-text {
+  max-width: 600px;
+  margin: auto;
+  color: #b9bec8;
+  line-height: 1.8;
+}
+
+.score {
+  margin: 20px 0;
+  color: #888f9b;
+  font-size: 12px;
+}
+
+.end-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.end-buttons button {
+  padding: 13px 20px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #1a1e27;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.end-buttons .primary {
+  border-color: var(--pink);
+  background: var(--pink);
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  place-items: center;
+  padding: 20px;
+  background: #000b;
+}
+
+.modal.show {
+  display: grid;
+}
+
+.modal-box {
+  width: min(500px, 100%);
+  padding: 22px;
+  border: 1px solid #383d48;
+  border-radius: 16px;
+  background: #14171e;
+  box-shadow: 0 30px 80px #000;
+}
+
+.modal-box h3 {
+  margin: 0 0 10px;
+}
+
+.modal-box p {
+  color: #b9bec8;
+  line-height: 1.8;
+}
+
+.modal-box button {
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--pink);
+  color: white;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* =========================
+   EFFECT
+========================= */
+
+.shake {
+  animation: shake 0.3s;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-7px);
+  }
+
+  50% {
+    transform: translateX(7px);
+  }
+
+  75% {
+    transform: translateX(-4px);
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+  #app {
+    padding: 10px;
+  }
+
+  .scene {
+    height: 280px;
+  }
+
+  .window {
+    top: 35px;
+    right: 5%;
+    width: 125px;
+    height: 80px;
+  }
+
+  .sofa {
+    left: 4%;
+    bottom: 35px;
+    width: 220px;
+    height: 62px;
+  }
+
+  .table {
+    right: 6%;
+    bottom: 35px;
+    width: 120px;
+    height: 48px;
+  }
+
+  .delivery-box {
+    right: 19%;
+    bottom: 82px;
+    width: 60px;
+    height: 49px;
+  }
+
+  .character {
+    bottom: 34px;
+  }
+
+  .scene-title {
+    font-size: 21px;
+  }
+
+  .content {
+    padding: 15px;
+  }
+
+  .hud {
+    gap: 5px;
+  }
+
+  .stat {
+    min-width: 78px;
+    padding: 8px 10px;
+  }
 }
 </style>
 </head>
+
 <body>
-<div id="game">
-<section id="title" class="screen">
-<div class="warning">⚠️ 실종사건 제1호 / 경찰 신고 전 마지막 기회</div>
-<div class="logo">용현이<br>엄마 찾기<small>THE MOM IS GONE</small></div>
-<div class="startline">
-용현이가 집에 왔는데 엄마가 없었다.<br>
-전화했더니 받지 않았다.<br>
-문자했더니 <b>“밥 먹었니?”</b>만 왔다.<br><br>
-그래서 용현이는 깨달았다.<br>
-<b>이건 평범한 실종이 아니라는 것을.</b>
-</div>
-<button class="startbtn" onclick="Game.start()">엄마를 찾는다</button>
-<div class="tiny">※ 본 게임의 사건·인물·대사는 모두 게임적 허구입니다. 특히 용현이는 허구입니다.</div>
+
+<div id="app">
+
+<!-- =========================
+     START SCREEN
+========================= -->
+
+<section id="startScreen" class="active">
+
+  <div class="start-inner">
+
+    <div class="kicker">
+      A VERY SERIOUS INVESTIGATION
+    </div>
+
+    <h1 class="start-title">
+      용현이<br>
+      <span>엄마 찾기</span>
+    </h1>
+
+    <p class="start-description">
+      엄마가 사라졌다.<br>
+      김치는 있는데 엄마는 없다.<br>
+      그리고 현관에는 정체불명의 택배가 있다.
+    </p>
+
+    <button class="start-button" onclick="startGame()">
+      수사 시작
+    </button>
+
+    <div class="warning">
+      ※ 이 게임은 진지하게 플레이할수록 손해를 볼 수 있습니다.
+    </div>
+
+  </div>
+
 </section>
 
-<section id="play" class="screen">
-<div class="top">
-<div class="chapter">CASE 001<b id="chapter">엄마가 사라졌다</b></div>
-<div class="stats">
-<div class="stat"><span>효도력</span><b id="score">0</b></div>
-<div class="stat"><span>불효력</span><b id="bad">0</b></div>
-<div class="stat"><span>단서</span><b id="clues">0/5</b></div>
-</div>
-</div>
 
-<div class="scene" id="scene">
-<div class="bg"></div><div class="window"></div><div class="sofa"></div><div class="table"></div>
-<div class="character" id="char">
-<div class="head"><div class="hair"></div><div class="eye l"></div><div class="eye r"></div><div class="mouth"></div></div>
-<div class="body"></div>
-</div>
-<div class="speech" id="bubble">엄마가 없다.</div>
-<div id="fx"><div class="fxtext" id="fxtext">뭐야?</div></div>
-</div>
+<!-- =========================
+     GAME
+========================= -->
 
-<div class="dialog">
-<div class="speaker" id="speaker">용현이</div>
-<div class="text" id="text">엄마가 없다. 이것은 매우 심각한 상황이다.</div>
-<div class="choices" id="choices"></div>
-</div>
+<section id="gameScreen" class="screen">
+
+  <div class="topbar">
+
+    <div class="brand">
+      용현이 <span>엄마 찾기</span>
+    </div>
+
+    <div class="case-number" id="caseNumber">
+      CASE 01
+    </div>
+
+  </div>
+
+
+  <div class="hud">
+
+    <div class="stat">
+      <b id="logic">50</b>
+      <small>추리력</small>
+    </div>
+
+    <div class="stat">
+      <b id="chaos">0</b>
+      <small>병맛력</small>
+    </div>
+
+    <div class="stat">
+      <b id="clueCount">0</b>
+      <small>단서</small>
+    </div>
+
+  </div>
+
+
+  <div class="progress">
+    <i id="progressBar"></i>
+  </div>
+
+
+  <div class="case" id="caseBox">
+
+    <div class="scene">
+
+      <div class="window"></div>
+
+      <div class="sofa"></div>
+
+      <div class="table"></div>
+
+      <div
+        class="delivery-box"
+        onclick="inspectBox()"
+        title="택배 상자"
+      >
+        CJ
+      </div>
+
+      <div
+        class="character"
+        onclick="inspectYonghyeon()"
+      >
+
+        <div class="character-tag">
+          용현이
+        </div>
+
+        <div class="character-head"></div>
+
+        <div class="character-body"></div>
+
+      </div>
+
+    </div>
+
+
+    <div class="content">
+
+      <div
+        class="chapter"
+        id="chapter"
+      ></div>
+
+      <h2
+        class="scene-title"
+        id="sceneTitle"
+      ></h2>
+
+      <div
+        class="dialogue"
+        id="dialogue"
+      ></div>
+
+      <div
+        class="choices"
+        id="choices"
+      ></div>
+
+
+      <div class="clue-area">
+
+        <div class="clue-title">
+          확보한 단서
+        </div>
+
+        <div
+          class="clues"
+          id="clues"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
 </section>
 
-<div id="ending">
-<div class="endcard">
-<div class="endlabel" id="endlabel">ENDING</div>
-<div class="endtitle" id="endtitle"></div>
-<div class="enddesc" id="enddesc"></div>
-<div id="endscore" style="margin-top:15px;font-size:20px;font-weight:1000"></div>
-<button class="restart" onclick="Game.start()">다시 찾기</button>
+
+<!-- =========================
+     ENDING
+========================= -->
+
+<section id="endingScreen" class="screen">
+
+  <div class="case">
+
+    <div class="ending">
+
+      <div
+        class="ending-type"
+        id="endingType"
+      ></div>
+
+      <h2 id="endingTitle"></h2>
+
+      <p
+        class="ending-text"
+        id="endingText"
+      ></p>
+
+      <div
+        class="score"
+        id="endingScore"
+      ></div>
+
+      <div class="end-buttons">
+
+        <button
+          class="primary"
+          onclick="startGame()"
+        >
+          다시 수사하기
+        </button>
+
+        <button
+          onclick="showCollection()"
+        >
+          엔딩 기록
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
 </div>
+
+
+<!-- =========================
+     MODAL
+========================= -->
+
+<div
+  class="modal"
+  id="modal"
+>
+
+  <div class="modal-box">
+
+    <h3 id="modalTitle"></h3>
+
+    <p id="modalText"></p>
+
+    <button onclick="closeModal()">
+      계속
+    </button>
+
+  </div>
+
 </div>
-</div>
+
 
 <script>
-const Game=(()=>{
-let s={},step=0;
 
-const $=id=>document.getElementById(id);
-const scenarios=[
- {speaker:"용현이",text:"엄마가 없다. 집 안을 세 번 돌았는데 없다. 냉장고는 열려 있다. 김치는 있다.",choices:[
-  ["엄마한테 전화한다","전화부터 한다.",2],
-  ["냉장고를 조사한다","일단 먹을 걸 찾는다.",1],
-  ["경찰에 신고한다","너무 이르다. 하지만 멋있다.",3]]},
- {speaker:"용현이",text:"냉장고 안에서 메모를 발견했다. <b>“용현아, 시장 좀 다녀올게.”</b>",choices:[
-  ["시장으로 간다","정상적인 선택이다.",4],
-  ["메모 뒷면을 확인한다","수상한 느낌이 난다.",5],
-  ["김치를 먹는다","단서가 될 수도 있다.",6]]},
- {speaker:"엄마",text:"뚜— 뚜— 전화 연결음이 간다. 그런데 누군가 받았다.",choices:[
-  ["“엄마?”라고 묻는다","가장 정상적인 반응.",7],
-  ["“누구세요?”라고 묻는다","일단 경계한다.",8],
-  ["말없이 끊는다","왜 전화했냐.",9]]},
- {speaker:"경찰",text:"경찰서에 전화했다. 경찰이 물었다. <b>“실종자의 특징이 어떻게 됩니까?”</b>",choices:[
-  ["“엄마입니다.”","매우 정확한 설명.",10],
-  ["“밥을 잘 해줍니다.”","그건 특징인가?",11],
-  ["“저보다 무섭습니다.”","경찰이 잠시 침묵했다.",12]]},
- {speaker:"시장",text:"시장에 도착했다. 상인 3명이 동시에 용현이를 쳐다본다.",choices:[
-  ["“혹시 엄마 보셨어요?”","정공법.",13],
-  ["“엄마!!!” 하고 외친다","시장 전체가 쳐다본다.",14],
-  ["아무 말 없이 생선 코너로 간다","왜?",15]]},
- {speaker:"메모",text:"뒷면에는 이상한 글씨가 있다. <b>“용현아. 이걸 보고 있다면 너는 꽤나 집요하구나.”</b>",choices:[
-  ["계속 읽는다","더 큰 비밀이 있을지도.",16],
-  ["찢어버린다","왜?",17],
-  ["사진을 찍는다","증거 확보.",18]]},
- {speaker:"용현이",text:"김치를 먹었다. 맛있다. 그러나 엄마 찾기와 무슨 관계인지 모르겠다.",choices:[
-  ["계속 찾는다","정신을 차린다.",19],
-  ["한 접시 더 먹는다","효도력 -50.",20],
-  ["김치에게 말을 건다","상황이 심각하다.",21]]}
+/* =========================================
+   GAME STATE
+========================================= */
+
+const state = {
+  logic: 50,
+  chaos: 0,
+  clues: [],
+  step: 0
+};
+
+
+/* =========================================
+   SCENES
+========================================= */
+
+const scenes = [
+
+  {
+    chapter: "사건 발생",
+    title: "엄마가 없다",
+
+    dialogue: `
+      거실에 들어왔다.
+      <br><br>
+
+      <strong>엄마가 없다.</strong>
+      <br><br>
+
+      그런데 TV는 켜져 있고,
+      김치냉장고도 돌아간다.
+      현관에는 택배가 하나 놓여 있다.
+      <br><br>
+
+      <strong>용현이: "뭐더냐."</strong>
+    `,
+
+    choices: [
+
+      [
+        "집을 샅샅이 조사한다",
+        "inspect"
+      ],
+
+      [
+        "엄마에게 전화한다",
+        "call"
+      ],
+
+      [
+        "경찰부터 부른다",
+        "police",
+        "danger"
+      ]
+
+    ]
+  },
+
+
+  {
+    chapter: "첫 번째 단서",
+    title: "김치의 상태가 이상하다",
+
+    dialogue: `
+      냉장고를 열었다.
+      <br><br>
+
+      김치통 위에 포스트잇이 있다.
+      <br><br>
+
+      <strong>"건드리지 마시오."</strong>
+      <br><br>
+
+      이런 문구는 보통 건드리라는 뜻이다.
+    `,
+
+    choices: [
+
+      [
+        "김치를 건드린다",
+        "kimchi",
+        "danger"
+      ],
+
+      [
+        "포스트잇 뒷면을 본다",
+        "note"
+      ],
+
+      [
+        "김치를 보며 \"뭐더냐\" 한다",
+        "think"
+      ]
+
+    ]
+  },
+
+
+  {
+    chapter: "수상한 배송",
+    title: "택배 상자",
+
+    dialogue: `
+      송장을 확인했다.
+      <br>
+
+      <strong>받는 사람: 용현이</strong>
+      <br>
+
+      보낸 사람: 없음
+      <br><br>
+
+      용현이는 상자를 바라보다가
+      갑자기 입을 연다.
+    `,
+
+    choices: [
+
+      [
+        "\"엄마 이게 뭔지 알아요?\"",
+        "cj"
+      ],
+
+      [
+        "상자를 흔든다",
+        "shake",
+        "danger"
+      ],
+
+      [
+        "송장 숫자를 기록한다",
+        "invoice"
+      ]
+
+    ]
+  },
+
+
+  {
+    chapter: "택배의 비밀",
+    title: "상자 안에는",
+
+    dialogue: `
+      상자 안에는
+      작은 리모컨,
+      열쇠,
+      영수증이 들어 있다.
+      <br><br>
+
+      영수증에는
+      <strong>19:10 / 동네 마트</strong>
+      가 찍혀 있다.
+    `,
+
+    choices: [
+
+      [
+        "열쇠를 챙긴다",
+        "key"
+      ],
+
+      [
+        "마트로 간다",
+        "market"
+      ],
+
+      [
+        "영수증을 의심한다",
+        "doubt"
+      ]
+
+    ]
+  },
+
+
+  {
+    chapter: "이상한 전화",
+    title: "\"뭐더냐…\"",
+
+    dialogue: `
+      갑자기 전화가 온다.
+      <br><br>
+
+      발신자는 <strong>엄마</strong>.
+      <br><br>
+
+      전화를 받자
+      3초간 정적이 흐른다.
+      <br><br>
+
+      그리고 작은 목소리가 들린다.
+      <br><br>
+
+      <strong>"뭐더냐…"</strong>
+    `,
+
+    choices: [
+
+      [
+        "\"엄마 어디예요?\"",
+        "ask"
+      ],
+
+      [
+        "통화를 녹음한다",
+        "record"
+      ],
+
+      [
+        "\"경찰 순찰차 세 대 보냅니다\"",
+        "three",
+        "danger"
+      ]
+
+    ]
+  },
+
+
+  {
+    chapter: "동네 마트",
+    title: "목격자",
+
+    dialogue: `
+      마트 직원이 용현이를 보자 말한다.
+      <br><br>
+
+      <strong>"어머니 찾으러 오셨어요?"</strong>
+      <br><br>
+
+      엄마는 19:10에 왔다가
+      19:20쯤 편의점 방향으로 갔다고 한다.
+    `,
+
+    choices: [
+
+      [
+        "편의점 방향을 묻는다",
+        "where"
+      ],
+
+      [
+        "CCTV를 확인한다",
+        "cctv"
+      ],
+
+      [
+        "직원을 의심한다",
+        "accuse",
+        "danger"
+      ]
+
+    ]
+  },
+
+
+  {
+    chapter: "편의점",
+    title: "배달 기사",
+
+    dialogue: `
+      편의점 앞에서
+      엄마와 뒷모습이 똑같은 사람이 보인다.
+      <br><br>
+
+      다가가자…
+      <br><br>
+
+      <strong>배달 기사다.</strong>
+      <br><br>
+
+      그런데 손에는
+      집 열쇠와 똑같이 생긴 열쇠가 있다.
+    `,
+
+    choices: [
+
+      [
+        "열쇠를 어디서 났는지 묻는다",
+        "delivery"
+      ],
+
+      [
+        "\"CJ 대한통운이잖아요\"",
+        "cj2"
+      ],
+
+      [
+        "몰래 뒤를 따라간다",
+        "follow",
+        "danger"
+      ]
+
+    ]
+  },
+
+
+  {
+    chapter: "마지막 단서",
+    title: "엄마의 메모",
+
+    dialogue: `
+      집에 돌아오자
+      식탁에 메모가 놓여 있다.
+      <br><br>
+
+      <strong>
+      "용현아,
+      찾는다고 다 찾는 게 아니다."
+      </strong>
+      <br><br>
+
+      아래에는 딱 한 단어가 적혀 있다.
+      <br><br>
+
+      <strong>냉장고</strong>
+    `,
+
+    choices: [
+
+      [
+        "냉장고를 다시 연다",
+        "fridge"
+      ],
+
+      [
+        "메모를 찢는다",
+        "rip",
+        "danger"
+      ],
+
+      [
+        "엄마에게 다시 전화한다",
+        "finalcall"
+      ]
+
+    ]
+  }
+
 ];
 
-function start(){
- s={score:0,bad:0,clues:0,ended:false};step=0;
- $("title").style.display="none";$("play").style.display="block";$("ending").style.display="none";
- update();show(0);
+
+/* =========================================
+   ENDINGS
+========================================= */
+
+const endings = {
+
+  true: {
+    type: "TRUE ENDING",
+    title: "엄마는 장 보러 갔다",
+
+    text: `
+      엄마는 평범하게 장을 보고 있었다.
+      <br><br>
+      용현이는 엄마를 찾자마자 말했다.
+      <br><br>
+      <strong>"뭐더냐."</strong>
+      <br><br>
+      사건은 끝났다.
+      <br>
+      하지만 아무도 왜 그렇게까지 했는지는 모른다.
+    `
+  },
+
+
+  police: {
+    type: "POLICE ENDING",
+    title: "경찰 순찰차 세 대 보냅니다",
+
+    text: `
+      신고 내용은
+      <br><br>
+      <strong>"엄마가 없는데 김치는 있습니다."</strong>
+      <br><br>
+      였다.
+      <br><br>
+      경찰은 세 대가 아니라
+      전화 한 통을 보냈다.
+      <br><br>
+      "어머니께 전화는 해보셨나요?"
+    `
+  },
+
+
+  cj: {
+    type: "CJ ENDING",
+    title: "엄마 이게 뭔지 알아요?",
+
+    text: `
+      용현이는 상자를 가리키며 말했다.
+      <br><br>
+      <strong>
+      "엄마 이게 뭔지 알아요?
+      CJ 대한통운이잖아요."
+      </strong>
+      <br><br>
+      엄마가 말했다.
+      <br><br>
+      "그거 네가 주문한 거야."
+      <br><br>
+      사건은 해결되지 않았지만
+      배송은 완료됐다.
+    `
+  },
+
+
+  chaos: {
+    type: "CHAOS ENDING",
+    title: "쌍 놈이건 넘이건 쌍 게이던",
+
+    text: `
+      수사가 논리의 영역을 벗어났다.
+      <br><br>
+      용현이는 모든 사람에게
+      같은 질문을 했다.
+      <br><br>
+      아무도 질문의 뜻을 몰랐다.
+      <br><br>
+      하지만 모두 고개를 끄덕였다.
+      <br><br>
+      그렇게 사건은 종결됐다.
+    `
+  },
+
+
+  secret: {
+    type: "SECRET ENDING",
+    title: "엄마가 용현이를 찾고 있었다",
+
+    text: `
+      냉장고 뒤에서 주소가 나왔다.
+      <br><br>
+      그곳에는 엄마가 남긴
+      마지막 메시지가 있었다.
+      <br><br>
+      <strong>
+      "용현아,
+      엄마도 너 찾고 있었다."
+      </strong>
+      <br><br>
+      그런데 주소 아래에
+      새로운 주소 하나가 더 적혀 있다.
+      <br><br>
+      <strong>2차 수사 필요.</strong>
+    `
+  },
+
+
+  legendary: {
+    type: "LEGENDARY ENDING",
+    title: "엄마보다 치킨을 먼저 찾았다",
+
+    text: `
+      엄마를 찾는 과정에서
+      치킨집을 발견했다.
+      <br><br>
+      용현이는 3초 동안 고민했다.
+      <br><br>
+      그리고 엄마에게 전화했다.
+      <br><br>
+      <strong>"엄마, 치킨 먹을래?"</strong>
+      <br><br>
+      전화기 너머에서
+      아주 긴 한숨이 들렸다.
+    `
+  }
+
+};
+
+
+/* =========================================
+   START
+========================================= */
+
+function startGame() {
+
+  state.logic = 50;
+  state.chaos = 0;
+  state.clues = [];
+  state.step = 0;
+
+  document
+    .getElementById("startScreen")
+    .classList.remove("active");
+
+  document
+    .getElementById("endingScreen")
+    .classList.remove("active");
+
+  document
+    .getElementById("gameScreen")
+    .classList.add("active");
+
+  render();
+
 }
-function update(){
- $("score").textContent=s.score;$("bad").textContent=s.bad;$("clues").textContent=s.clues+"/5";
+
+
+/* =========================================
+   RENDER
+========================================= */
+
+function render() {
+
+  const scene = scenes[state.step];
+
+  document.getElementById("caseNumber").textContent =
+    "CASE " +
+    String(state.step + 1).padStart(2, "0");
+
+  document.getElementById("chapter").textContent =
+    scene.chapter;
+
+  document.getElementById("sceneTitle").textContent =
+    scene.title;
+
+  document.getElementById("dialogue").innerHTML =
+    scene.dialogue;
+
+  document.getElementById("logic").textContent =
+    state.logic;
+
+  document.getElementById("chaos").textContent =
+    state.chaos;
+
+  document.getElementById("clueCount").textContent =
+    state.clues.length;
+
+  const progress =
+    state.step /
+    (scenes.length - 1) *
+    100;
+
+  document.getElementById("progressBar").style.width =
+    progress + "%";
+
+
+  const choices =
+    document.getElementById("choices");
+
+  choices.innerHTML = "";
+
+
+  scene.choices.forEach((choice, index) => {
+
+    const button =
+      document.createElement("button");
+
+    button.className =
+      "choice " +
+      (choice[2] || "");
+
+    button.innerHTML =
+      `<span class="number">${index + 1}</span>` +
+      choice[0];
+
+    button.onclick = () =>
+      handleChoice(choice[1]);
+
+    choices.appendChild(button);
+
+  });
+
+
+  const clues =
+    document.getElementById("clues");
+
+  clues.innerHTML = "";
+
+  state.clues.forEach(clue => {
+
+    const item =
+      document.createElement("span");
+
+    item.className = "clue";
+
+    item.textContent = clue;
+
+    clues.appendChild(item);
+
+  });
+
 }
-function show(index){
- const q=scenarios[index%scenarios.length];
- $("speaker").textContent=q.speaker;$("text").innerHTML=q.text;
- $("choices").innerHTML="";
- q.choices.forEach((c,i)=>{
-  const b=document.createElement("button");b.className="choice";
-  b.innerHTML=`${["①","②","③"][i]} ${c[0]}<small>${c[1]}</small>`;
-  b.onclick=()=>choose(c[2],i,c[0]);
-  $("choices").appendChild(b);
- });
- $("bubble").textContent=q.speaker==="엄마"?"전화기 너머에서 목소리가 들린다.":"엄마가 없다.";
+
+
+/* =========================================
+   CLUE
+========================================= */
+
+function addClue(text) {
+
+  if (!state.clues.includes(text)) {
+    state.clues.push(text);
+  }
+
 }
-function choose(next,i,label){
- s.score+=50;
- if(i===1){s.bad++;s.score-=20}
- if(i===2){s.bad+=2;s.score-=50}
- s.clues+=Math.random()<.48?1:0;
- update();
- fx(i===0?"좋은 선택":"왜 그걸 눌러",i===0);
- step++;
- special(next,label);
+
+
+/* =========================================
+   CHOICE HANDLER
+========================================= */
+
+function handleChoice(action) {
+
+  const game =
+    document.getElementById("caseBox");
+
+  game.classList.remove("shake");
+
+  void game.offsetWidth;
+
+
+  const next = n => {
+    state.step = n;
+  };
+
+
+  switch (action) {
+
+    case "inspect":
+
+      addClue("집 안에는 엄마가 없음");
+
+      state.logic += 5;
+
+      next(1);
+
+      break;
+
+
+    case "call":
+
+      addClue("엄마 전화 연결 안 됨");
+
+      state.logic += 3;
+
+      next(1);
+
+      break;
+
+
+    case "police":
+
+      state.chaos += 20;
+
+      finish("police");
+
+      return;
+
+
+    case "kimchi":
+
+      state.chaos += 12;
+
+      state.logic -= 4;
+
+      addClue("김치통 밑에 작은 열쇠");
+
+      next(2);
+
+      break;
+
+
+    case "note":
+
+      state.logic += 7;
+
+      addClue("포스트잇 뒷면: 마트");
+
+      next(2);
+
+      break;
+
+
+    case "think":
+
+      state.chaos += 8;
+
+      next(2);
+
+      break;
+
+
+    case "cj":
+
+      state.chaos += 8;
+
+      finish("cj");
+
+      return;
+
+
+    case "shake":
+
+      state.logic -= 8;
+
+      state.chaos += 10;
+
+      game.classList.add("shake");
+
+      addClue("상자에서 딸깍 소리");
+
+      next(3);
+
+      break;
+
+
+    case "invoice":
+
+      state.logic += 6;
+
+      addClue("송장 숫자 1910");
+
+      next(3);
+
+      break;
+
+
+    case "key":
+
+      state.logic += 5;
+
+      addClue("택배 속 열쇠");
+
+      next(4);
+
+      break;
+
+
+    case "market":
+
+      state.logic += 3;
+
+      next(5);
+
+      break;
+
+
+    case "doubt":
+
+      state.logic += 6;
+
+      addClue("영수증: 19:10 마트");
+
+      next(5);
+
+      break;
+
+
+    case "ask":
+
+      state.logic += 4;
+
+      addClue(
+        "엄마가 전화로 '뭐더냐'라고 함"
+      );
+
+      next(5);
+
+      break;
+
+
+    case "record":
+
+      state.logic += 9;
+
+      addClue(
+        "통화는 실시간 통화였다"
+      );
+
+      next(5);
+
+      break;
+
+
+    case "three":
+
+      state.chaos += 20;
+
+      finish("police");
+
+      return;
+
+
+    case "where":
+
+      state.logic += 7;
+
+      addClue(
+        "엄마는 편의점 방향으로 이동"
+      );
+
+      next(6);
+
+      break;
+
+
+    case "cctv":
+
+      state.logic += 11;
+
+      addClue(
+        "CCTV에서 엄마가 편의점으로 이동"
+      );
+
+      next(6);
+
+      break;
+
+
+    case "accuse":
+
+      state.logic -= 12;
+
+      state.chaos += 12;
+
+      next(6);
+
+      break;
+
+
+    case "delivery":
+
+      state.logic += 10;
+
+      addClue(
+        "배달 기사는 엄마의 주문을 배달 중"
+      );
+
+      next(7);
+
+      break;
+
+
+    case "cj2":
+
+      state.chaos += 7;
+
+      state.logic -= 3;
+
+      next(7);
+
+      break;
+
+
+    case "follow":
+
+      state.logic -= 10;
+
+      state.chaos += 10;
+
+      next(7);
+
+      break;
+
+
+    case "fridge":
+
+      state.logic += 15;
+
+      addClue(
+        "냉장고 뒤에 주소가 적혀 있음"
+      );
+
+      if (state.logic >= 75) {
+        finish("secret");
+      } else {
+        finish("true");
+      }
+
+      return;
+
+
+    case "rip":
+
+      state.logic -= 15;
+
+      state.chaos += 15;
+
+      finish("chaos");
+
+      return;
+
+
+    case "finalcall":
+
+      if (state.clues.length >= 5) {
+        finish("true");
+      } else {
+        finish("legendary");
+      }
+
+      return;
+
+  }
+
+
+  render();
+
 }
-function special(next,label){
- const n=step;
- const routes=[
-  {t:"전화가 연결됐다.",sp:"전화 너머",d:"“용현아?”<br><br>목소리는 엄마였다.<br>그런데 뒤에서 <b>“치킨 왔습니다!”</b>라는 소리가 들린다.",choices:[
-   ["“엄마 어디야?”",24],["“치킨 뭐 시켰어?”",25],["“엄마 사랑해”",26]]},
-  {t:"시장 상인",sp:"상인",d:"“용현이 엄마? 아까 봤지.”<br>용현이의 눈이 커졌다.<br>“근데 어디 갔는지는 말 안 해줄 거야.”",choices:[
-   ["돈을 준다",27],["협박한다",28],["정중하게 부탁한다",29]]},
-  {t:"갑자기",sp:"???",d:"화면이 흔들린다.<br><br><b>엄마:</b> “용현아.”<br><br>뒤에서 목소리가 들린다.",choices:[
-   ["뒤를 본다",30],["안 본다",31],["엄마라고 대답한다",32]]}
- ];
- if(n===3){branch(routes[0]);return}
- if(n===6){branch(routes[1]);return}
- if(n===9){branch(routes[2]);return}
- if(n>=12){finale();return}
- show((next+n)%scenarios.length);
+
+
+/* =========================================
+   ENDING
+========================================= */
+
+function finish(type) {
+
+  const ending = endings[type];
+
+  document
+    .getElementById("gameScreen")
+    .classList.remove("active");
+
+  document
+    .getElementById("endingScreen")
+    .classList.add("active");
+
+
+  document.getElementById("endingType")
+    .textContent = ending.type;
+
+  document.getElementById("endingTitle")
+    .textContent = ending.title;
+
+  document.getElementById("endingText")
+    .innerHTML = ending.text;
+
+  document.getElementById("endingScore")
+    .textContent =
+      `추리력 ${state.logic} · ` +
+      `병맛력 ${state.chaos} · ` +
+      `확보 단서 ${state.clues.length}개`;
+
+
+  saveEnding(ending.type);
+
 }
-function branch(r){
- $("speaker").textContent=r.sp;$("text").innerHTML=r.d;$("choices").innerHTML="";
- r.choices.forEach((c,i)=>{
-  let b=document.createElement("button");b.className="choice";b.innerHTML=`${i+1}. ${c[0]}<small>이 선택은 돌이킬 수 없을 수도 있습니다.</small>`;
-  b.onclick=()=>{s.score+=i===0?150:30;s.bad+=i===2?1:0;update();step++;if(step>=12)finale();else show((c[1]+step)%scenarios.length)};$("choices").appendChild(b);
- });
+
+
+/* =========================================
+   ENDING COLLECTION
+========================================= */
+
+function saveEnding(type) {
+
+  let endings =
+    JSON.parse(
+      localStorage.getItem("yonghyeon_endings") ||
+      "[]"
+    );
+
+  if (!endings.includes(type)) {
+
+    endings.push(type);
+
+    localStorage.setItem(
+      "yonghyeon_endings",
+      JSON.stringify(endings)
+    );
+
+  }
+
 }
-function fx(t,good){
- const f=$("fx"),ft=$("fxtext");ft.textContent=t;f.style.display="flex";
- clearTimeout(f.t);f.t=setTimeout(()=>f.style.display="none",550);
- $("scene").classList.remove("shake");void $("scene").offsetWidth;if(!good)$("scene").classList.add("shake");
+
+
+function showCollection() {
+
+  const endings =
+    JSON.parse(
+      localStorage.getItem("yonghyeon_endings") ||
+      "[]"
+    );
+
+  if (!endings.length) {
+
+    openModal(
+      "엔딩 기록",
+      "아직 발견한 엔딩이 없습니다."
+    );
+
+    return;
+  }
+
+
+  openModal(
+    "엔딩 기록",
+    `
+      발견한 엔딩:
+      <br><br>
+
+      ${endings
+        .map(item => "• " + item)
+        .join("<br>")}
+
+      <br><br>
+
+      <span style="color:#777">
+      아직 발견하지 못한 엔딩도 어딘가에 존재한다.
+      </span>
+    `
+  );
+
 }
-function finale(){
- const endings=[
-  ["TRUE ENDING","엄마는 시장에서 장을 보고 있었다.","용현이: “엄마 왜 말도 없이 갔어!”<br>엄마: “김치 떨어졌잖아.”<br><br>사건의 전말은 김치였다."],
-  ["BAD ENDING","용현이가 엄마를 찾았다.","엄마: “그래서 숙제는 했니?”<br><br>용현이는 다시 도망쳤다."],
-  ["SECRET ENDING","엄마가 용현이를 찾고 있었다.","엄마: “용현아, 너 어디 갔었니?”<br>용현이: “엄마 찾으러.”<br>엄마: “내가 널 찾고 있었는데?”<br><br><b>수색 대상이 뒤바뀌었습니다.</b>"],
-  ["??? ENDING","사실 엄마는 처음부터 집에 있었다.","엄마: “나 화장실 갔다 왔는데?”<br><br>용현이는 12분 동안 혼자 난리를 피웠다."],
-  ["LEGENDARY ENDING","용현이는 엄마보다 치킨을 먼저 찾았다.","엄마: “치킨 식기 전에 먹자.”<br>용현이: “엄마 사랑해.”<br><br>인류는 평화를 되찾았다."]
- ];
- let idx=s.bad>=5?3:(s.score>800?2:Math.floor(Math.random()*endings.length));
- const e=endings[idx];
- $("endlabel").textContent=e[0];$("endtitle").textContent=e[1];$("enddesc").innerHTML=e[2];
- $("endscore").textContent=`효도력 ${s.score} / 불효력 ${s.bad}`;
- $("ending").style.display="flex";s.ended=true;
+
+
+/* =========================================
+   INTERACTION
+========================================= */
+
+function inspectBox() {
+
+  openModal(
+    "택배 상자",
+    `
+      송장을 자세히 보니
+      <strong>19:10</strong>이라는 숫자가
+      희미하게 보인다.
+      <br><br>
+
+      그런데 왜 보낸 사람은 비어 있을까?
+      <br><br>
+
+      <span style="color:#777">
+      상자를 다시 클릭한다고
+      뭐가 더 나오지는 않는다.
+      아마도.
+      </span>
+    `
+  );
+
 }
-return{start};
-})();
+
+
+function inspectYonghyeon() {
+
+  openModal(
+    "용현이 상태",
+    `
+      추리력:
+      <strong>${state.logic}</strong>
+      <br>
+
+      병맛력:
+      <strong>${state.chaos}</strong>
+      <br><br>
+
+      현재 용현이는
+      ${state.logic >= 70
+        ? "상당히 진지하게 추리하고 있다."
+        : "뭔가를 알아내고 있는 것 같지만 확신은 없다."}
+      <br><br>
+
+      <span style="color:#777">
+      중요한 순간에는 "뭐더냐"를 외치는 경향이 있다.
+      </span>
+    `
+  );
+
+}
+
+
+/* =========================================
+   MODAL
+========================================= */
+
+function openModal(title, text) {
+
+  document.getElementById("modalTitle")
+    .textContent = title;
+
+  document.getElementById("modalText")
+    .innerHTML = text;
+
+  document.getElementById("modal")
+    .classList.add("show");
+
+}
+
+
+function closeModal() {
+
+  document.getElementById("modal")
+    .classList.remove("show");
+
+}
+
 </script>
+
 </body>
 </html>
